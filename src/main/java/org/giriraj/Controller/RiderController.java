@@ -24,23 +24,23 @@ public class RiderController {
 	IRiderService riderService;
 	
 	@GetMapping("/Riders")
-	public ResponseEntity<List<Rider>> getAllCustomers(){
+	public ResponseEntity<List<Rider>> getAllRiders(){
 		return new ResponseEntity<List<Rider>>(riderService.viewAll(),HttpStatus.OK);
 	}
 	@GetMapping("/Rider/{id}")
-	public ResponseEntity<Rider> getCustomerById(@Valid@PathVariable Long id){
+	public ResponseEntity<Rider> getRiderById(@Valid@PathVariable Long id){
 		return new ResponseEntity<Rider>(riderService.viewById(id),HttpStatus.OK);
 	}
 	@PostMapping("/RiderAdd")
-	public ResponseEntity<Rider> addCustomer(@Valid@RequestBody Rider c){
+	public ResponseEntity<Rider> addRider(@Valid@RequestBody Rider c){
 		return new ResponseEntity<Rider>(riderService.create(c),HttpStatus.OK);
 	}
 	@PutMapping("/RiderUpdate")
-	public ResponseEntity<Rider> updateCustomer(@Valid@RequestBody Rider c){
+	public ResponseEntity<Rider> updateRider(@Valid@RequestBody Rider c){
 		return new ResponseEntity<Rider>(riderService.update(c),HttpStatus.OK);
 	}
 	@DeleteMapping("/RiderDelete/{id}")
-	public ResponseEntity<Rider> updateCustomer(@Valid@PathVariable Long id){
+	public ResponseEntity<Rider> updateRider(@Valid@PathVariable Long id){
 		return new ResponseEntity<Rider>(riderService.delete(id),HttpStatus.OK);
 	}
 }

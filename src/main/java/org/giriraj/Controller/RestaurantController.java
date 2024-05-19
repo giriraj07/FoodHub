@@ -25,29 +25,29 @@ public class RestaurantController {
 	@Autowired
 	IRestaurantService restaurant;
 	@GetMapping("/Restaurants/{field}/{direction}")
-	public ResponseEntity<List<Restaurant>> getAllCustomers(@PathVariable String field,@PathVariable String direction){
+	public ResponseEntity<List<Restaurant>> getAllRestaurents(@PathVariable String field,@PathVariable String direction){
 		return new ResponseEntity<List<Restaurant>>(restaurant.viewAll(field,direction),HttpStatus.OK);
 	}
 
 	@GetMapping("/Restaurants/{foodType}")
-	public ResponseEntity<List<Restaurant>> getAllCustomers(@PathVariable FoodType foodType){
+	public ResponseEntity<List<Restaurant>> getAllRestaurents(@PathVariable FoodType foodType){
 		return new ResponseEntity<List<Restaurant>>(restaurant.findByFoodType(foodType),HttpStatus.OK);
 	}
 
 	@GetMapping("/Restaurant/{id}")
-	public ResponseEntity<Restaurant> getCustomerById(@Valid@PathVariable Long id){
+	public ResponseEntity<Restaurant> getRestaurentById(@Valid@PathVariable Long id){
 		return new ResponseEntity<Restaurant>(restaurant.viewById(id),HttpStatus.OK);
 	}
 	@PostMapping("/RestaurantAdd")
-	public ResponseEntity<Restaurant> addCustomer(@Valid@RequestBody Restaurant c){
+	public ResponseEntity<Restaurant> addRestaurent(@Valid@RequestBody Restaurant c){
 		return new ResponseEntity<Restaurant>(restaurant.create(c),HttpStatus.OK);
 	}
 	@PutMapping("/RestaurantUpdate")
-	public ResponseEntity<Restaurant> updateCustomer(@Valid@RequestBody Restaurant c){
+	public ResponseEntity<Restaurant> updateRestaurent(@Valid@RequestBody Restaurant c){
 		return new ResponseEntity<Restaurant>(restaurant.update(c),HttpStatus.OK);
 	}
 	@DeleteMapping("/RestaurantDelete/{id}")
-	public ResponseEntity<Restaurant> updateCustomer(@Valid@PathVariable Long id){
+	public ResponseEntity<Restaurant> updateRestaurent(@Valid@PathVariable Long id){
 		return new ResponseEntity<Restaurant>(restaurant.delete(id),HttpStatus.OK);
 	}
 }

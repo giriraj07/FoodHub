@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.giriraj.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import org.giriraj.Exceptions.NotAvailableException;
@@ -20,21 +19,15 @@ public class OrdersService implements IOrdersService {
 	private IOrders orders;
 	@Autowired
 	private IRiderService dp;
+	@Autowired
+	private CustomerHistory customerHistory;
+	@Autowired
+	private RiderHistory riderHistory;
 	
 	@Override
 	public Orders create(Orders r) {
 		// TODO Auto-generated method stub
-		return orders.save(r);
-	}
-
-	@Override
-	public Orders update(Orders r) {
-		// TODO Auto-generated method stub
-		Optional<Orders> opt=orders.findById(r.getOrderId());
-		if(!opt.isPresent()) {
-			throw new NotFoundException("Not Found Exception");
-		}
-		
+		customerHistory.addOrders(r.getCustomer().getCustomerId(), r);
 		return orders.save(r);
 	}
 
@@ -47,6 +40,8 @@ public class OrdersService implements IOrdersService {
 		}
 		Orders o=opt.get();
 		o.setOrderStatus(s);
+		if(s.equals(Status.DELIVERED))
+			riderHistory.addOrdersDelivered(o.getRider().getRiderId(), o);
 		return orders.save(o);
 	}
 
@@ -91,19 +86,22 @@ public class OrdersService implements IOrdersService {
 	}
 
 	@Override
-	public Orders assignToRider(Long did, Long oid) {
+	public Orders assignToRider(Long rid, Long oid) {
 	
 		Optional<Orders> opt=orders.findById(oid);
 		if(!opt.isPresent()) {
 			throw new NotFoundException("No Orders Found with id");
 		}
-		Rider dps=dp.isPresent(did);
-		
+		Rider dps=dp.isPresent(rid);
+		if(opt.get().getOrderStatus().equals(Status.DELIVERED)){
+			riderHistory.addOrdersDelivered(rid, opt.get());
+			throw new NotAvailableException("Already Delivered");
+		}
 		if(dps.getStatus().equals(Condition.ENGAGED)) {
 			throw new NotAvailableException("Not available");
 		}
-		if(opt.get().getOrderStatus().equals(Status.DELIVERED) || opt.get().getOrderStatus().equals(Status.ON_THE_WAY)) {
-			throw new NotAvailableException("Already Assigned");
+		if(opt.get().getOrderStatus().equals(Status.ON_THE_WAY)) {
+			throw new NotAvailableException("Already Delivered");
 		}
 		Orders order= opt.get();
 		order.setRider(dps);
