@@ -2,6 +2,7 @@ package org.giriraj.Controller;
 
 import java.util.List;
 
+import org.giriraj.Model.FoodType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,12 @@ public class RestaurantController {
 	public ResponseEntity<List<Restaurant>> getAllCustomers(@PathVariable String field,@PathVariable String direction){
 		return new ResponseEntity<List<Restaurant>>(restaurant.viewAll(field,direction),HttpStatus.OK);
 	}
+
+	@GetMapping("/Restaurants/{foodType}")
+	public ResponseEntity<List<Restaurant>> getAllCustomers(@PathVariable FoodType foodType){
+		return new ResponseEntity<List<Restaurant>>(restaurant.findByFoodType(foodType),HttpStatus.OK);
+	}
+
 	@GetMapping("/Restaurant/{id}")
 	public ResponseEntity<Restaurant> getCustomerById(@Valid@PathVariable Long id){
 		return new ResponseEntity<Restaurant>(restaurant.viewById(id),HttpStatus.OK);

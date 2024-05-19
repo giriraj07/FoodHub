@@ -22,12 +22,12 @@ import jakarta.validation.constraints.Size;
 @NoArgsConstructor
 @Data
 @Entity
-public class DeliveryPartner {
+public class Rider {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@NotNull
-	private Long deliveryPartnerId;
+	private Long RiderId;
 	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
@@ -40,18 +40,18 @@ public class DeliveryPartner {
 	@Pattern(regexp = "^[6-9][0-9]{9}")
 	private String phoneNumber;
 	
-	@OneToMany(mappedBy="deliveryPartner")
+	@OneToMany(mappedBy="Rider")
 	private List<Orders> orders;
 
 	@Enumerated(EnumType.STRING)
 	private Condition status;
 
-//	public DeliveryPartner() {
+//	public Rider() {
 //		super();
 //		// TODO Auto-generated constructor stub
 //	}
 
-	public DeliveryPartner(
+	public Rider(
 			@NotNull(message = "Name is mandotory") @Size(min = 2, message = "name should be of greater than 2 letters") String name,
 			@NotNull @Pattern(regexp = "^[6-9][0-9]{9}") String phoneNumber, Condition status) {
 		super();
@@ -62,7 +62,7 @@ public class DeliveryPartner {
 
 	@Override
 	public String toString() {
-		return "DeliveryPartner [deliveryPartnerId=" + deliveryPartnerId + ", name=" + name + ", phoneNumber="
+		return "Rider [RiderId=" + RiderId + ", name=" + name + ", phoneNumber="
 				+ phoneNumber + ", status=" + status + "]";
 	}
 

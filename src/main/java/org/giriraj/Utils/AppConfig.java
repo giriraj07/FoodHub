@@ -39,8 +39,8 @@ public class AppConfig {
 				.requestMatchers("/swagger-ui*/**", "/v3/api-docs/**").permitAll().requestMatchers("/cus","/order")
 				.hasAnyRole("ADMIN", "USER")
 				.requestMatchers("/RestaurantUpdate", "/RestaurantAdd", "/Restaurant/{field}/{direction}",
-						"/Restaurant/{id}", "/RestaurantDelete/{id}", "/DeliveryPartnerUpdate", "/DeliveryPartnerAdd",
-						"/DeliveryPartner/{id}", "/DeliveryPartnerDelete/{id}")
+						"/Restaurant/{id}", "/RestaurantDelete/{id}", "/RiderUpdate", "/RiderAdd",
+						"/Rider/{id}", "/RiderDelete/{id}")
 				.hasRole("ADMIN").anyRequest().authenticated()).csrf(csrf -> csrf.disable())
 				.formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults());
 		return http.build();

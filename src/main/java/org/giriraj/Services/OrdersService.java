@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.giriraj.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import org.giriraj.Exceptions.NotAvailableException;
 import org.giriraj.Exceptions.NotFoundException;
-import org.giriraj.Model.Condition;
-import org.giriraj.Model.DeliveryPartner;
-import org.giriraj.Model.Orders;
-import org.giriraj.Model.Status;
 import org.giriraj.Repository.IOrders;
 
 @Service
@@ -21,7 +19,7 @@ public class OrdersService implements IOrdersService {
 	@Autowired
 	private IOrders orders;
 	@Autowired
-	private IDeliveryPartnerService dp;
+	private IRiderService dp;
 	
 	@Override
 	public Orders create(Orders r) {
@@ -74,7 +72,7 @@ public class OrdersService implements IOrdersService {
 		List<Orders> opt=orders.findAll();
 		List<Orders> cid=new ArrayList<Orders>();
 		for(Orders i:opt) {
-			if(i.getCustomerId().equals(id)) {
+			if(i.getCustomer().getUserId().equals(id)) {
 				cid.add(i);
 			}
 		}
@@ -93,13 +91,13 @@ public class OrdersService implements IOrdersService {
 	}
 
 	@Override
-	public Orders assignToDeliveryPartner(Long did, Long oid) {
+	public Orders assignToRider(Long did, Long oid) {
 	
 		Optional<Orders> opt=orders.findById(oid);
 		if(!opt.isPresent()) {
 			throw new NotFoundException("No Orders Found with id");
 		}
-		DeliveryPartner dps=dp.isPresent(did);
+		Rider dps=dp.isPresent(did);
 		
 		if(dps.getStatus().equals(Condition.ENGAGED)) {
 			throw new NotAvailableException("Not available");
@@ -108,7 +106,7 @@ public class OrdersService implements IOrdersService {
 			throw new NotAvailableException("Already Assigned");
 		}
 		Orders order= opt.get();
-		order.setDeliveryPartnerId(dps);
+		order.setRider(dps);
 		dps.setStatus(Condition.ENGAGED);
 		
 		

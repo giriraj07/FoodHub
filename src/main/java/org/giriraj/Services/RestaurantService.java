@@ -2,7 +2,9 @@ package org.giriraj.Services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.giriraj.Model.FoodType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +55,11 @@ public class RestaurantService implements IRestaurantService {
 		}
 		restaurant.deleteById(id);
 		return rest.get();
+	}
+
+	@Override
+	public List<Restaurant> findByFoodType(FoodType foodType) {
+		return restaurant.findAll().stream().filter(restaurant1 -> restaurant1.getFoodType().equals(foodType)).collect(Collectors.toList());
 	}
 
 }

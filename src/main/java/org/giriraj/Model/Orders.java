@@ -15,9 +15,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 @Entity
 @Table(name="OrdersTable")
+@Data
 public class Orders {
 
 	@Id
@@ -37,8 +39,8 @@ public class Orders {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="deliveryPartner")
-	private DeliveryPartner deliveryPartner;
+	@JoinColumn(name="Rider")
+	private Rider Rider;
 	
 	private List<String> items=new ArrayList<>();
 	
@@ -51,64 +53,20 @@ public class Orders {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Orders(Customer customerId, Restaurant restaurantId, DeliveryPartner deliveryPartnerId, List<String> items,
+	public Orders(Customer customerId, Restaurant restaurantId, Rider RiderId, List<String> items,
 			@NotNull Status orderStatus) {
 		super();
 		this.customer = customerId;
 		this.restaurant = restaurantId;
-		this.deliveryPartner = deliveryPartnerId;
+		this.Rider = RiderId;
 		this.items = items;
 		this.orderStatus = orderStatus;
-	}
-
-	public Long getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
-
-	public Restaurant getRestaurantId() {
-		return restaurant;
-	}
-
-	public void setRestaurantId(Restaurant restaurantId) {
-		this.restaurant = restaurantId;
-	}
-
-	public DeliveryPartner getDeliveryPartnerId() {
-		return deliveryPartner;
-	}
-
-	public void setDeliveryPartnerId(DeliveryPartner deliveryPartnerId) {
-		this.deliveryPartner = deliveryPartnerId;
-	}
-
-	public List<String> getItems() {
-		return items;
-	}
-
-	public void setItems(List<String> items) {
-		this.items = items;
-	}
-
-	public Status getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(Status orderStatus) {
-		this.orderStatus = orderStatus;
-	}
-
-	public Customer getCustomerId() {
-		return customer;
 	}
 
 	@Override
 	public String toString() {
 		return "Orders [orderId=" + orderId + ", customerId=" + customer + ", restaurantId=" + restaurant
-				+ ", deliveryPartnerId=" + deliveryPartner + ", items=" + items + ", orderStatus=" + orderStatus
+				+ ", RiderId=" + Rider + ", items=" + items + ", orderStatus=" + orderStatus
 				+ "]";
 	}
 

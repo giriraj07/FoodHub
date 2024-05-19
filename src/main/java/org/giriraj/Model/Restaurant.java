@@ -26,9 +26,10 @@ public class Restaurant {
 	
 	@OneToMany(mappedBy="restaurant")
 	private List<Orders> orders;
-	
-	@JsonProperty(access = Access.WRITE_ONLY)
-	private String password;
+
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private FoodType foodType;
 
 	public Restaurant(String restaurantName, String address) {
 		super();
