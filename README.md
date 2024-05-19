@@ -1,7 +1,6 @@
 Sample Food Order Delivery application with below Features :
 
-            ![image](https://github.com/giriraj07/FoodHub/assets/30201275/c1d6dfcb-2ac9-4847-8863-6c422633c746)
-
+![image](https://github.com/giriraj07/FoodHub/assets/30201275/e7d6a73c-7470-49ea-a6f5-32e6c7948181)
 
 
 1. Place and Manage Orders
